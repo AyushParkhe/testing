@@ -7,8 +7,8 @@ import os
 import os
 
 def ensure_data_dir():
-    if not os.path.exists("data"):
-        os.makedirs("data")
+    if not os.path.exists("data1"):
+        os.makedirs("data1")
 ensure_data_dir()
 
 
@@ -16,7 +16,7 @@ ensure_data_dir()
 # CONFIGURATION
 # -----------------------------
 BASE_URL = "https://internshala.com/internships/"
-OUTPUT_FILE = "data/internships.csv"
+OUTPUT_FILE = "data1/internships.csv"
 
 HEADERS = {
     "User-Agent": (
@@ -132,7 +132,7 @@ def scrape_internshala():
 # SAVE DATA (NO DUPLICATES)
 # -----------------------------
 def save_to_csv(new_data):
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("data1", exist_ok=True)
 
     new_df = pd.DataFrame(new_data)
 
@@ -157,7 +157,7 @@ def save_to_csv(new_data):
 # ENTRY POINT
 # -----------------------------
 if __name__ == "__main__":
-    data = scrape_internshala()
-    save_to_csv(data)
+    data1 = scrape_internshala()
+    save_to_csv(data1)
     df.to_csv("data/internships.csv", index=False)
     print("Scraping completed at:", datetime.now())
