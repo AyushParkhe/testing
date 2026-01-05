@@ -4,6 +4,13 @@ import pandas as pd
 import time
 from datetime import datetime
 import os
+import os
+
+def ensure_data_dir():
+    if not os.path.exists("data"):
+        os.makedirs("data")
+ensure_data_dir()
+df.to_csv("data/internships.csv", index=False)
 
 # -----------------------------
 # CONFIGURATION
@@ -12,8 +19,16 @@ BASE_URL = "https://internshala.com/internships/"
 OUTPUT_FILE = "data/internships.csv"
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0"
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    ),
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive"
 }
+
 
 PAGES_TO_SCRAPE = 3        # pages 1 to 3 (≈ 50–60 internships)
 REQUEST_DELAY = 5          # seconds between page requests
@@ -44,7 +59,10 @@ def scrape_internshala():
 
             print(f"Scraping page {page}: {url}")
 
-            response = requests.get(url, headers=HEADERS, timeout=30)
+            response = requests.get(url, headers=HEADERS, timeout=20)
+            print("Status code:", response.status_code)
+            print("Page length:", len(response.text))
+
             if response.status_code != 200:
                 print("Failed to fetch page:", page)
                 continue
@@ -53,7 +71,7 @@ def scrape_internshala():
 
             internships = soup.find_all(
                 "div",
-                class_="container-fluid individual_internship"
+                class_="individual_internship"
             )
 
             print("Internships found on page:", len(internships))
