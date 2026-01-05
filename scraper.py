@@ -10,7 +10,7 @@ def ensure_data_dir():
     if not os.path.exists("data"):
         os.makedirs("data")
 ensure_data_dir()
-df.to_csv("data/internships.csv", index=False)
+
 
 # -----------------------------
 # CONFIGURATION
@@ -159,4 +159,5 @@ def save_to_csv(new_data):
 if __name__ == "__main__":
     data = scrape_internshala()
     save_to_csv(data)
+    df.to_csv("data/internships.csv", index=False)
     print("Scraping completed at:", datetime.now())
